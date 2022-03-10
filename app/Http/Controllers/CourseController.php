@@ -2,22 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CourseRequest;
+use App\Http\Resources\CourseResource;
 use App\Models\Course;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class CourseController extends Controller
 {
-
-    private $courses = [
-        [
-            'id' => 1,
-            'name' => 'test'
-        ],
-        [
-            'id' => 2,
-            'name' => 'test2'
-        ],
-    ];
 
     /**
      * Display a listing of the resource.
@@ -26,18 +18,22 @@ class CourseController extends Controller
      */
     public function index()
     {
-        return Course::all();
+        return response()->json(
+            CourseResource::collection(Course::all()),
+            Response::HTTP_OK
+        );
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CourseRequest $request)
     {
-        //
+        $data = $request->all();
+        $course = Course::create($data);
+        return response()->json(CourseResource::make($course), Response::HTTP_CREATED);
     }
 
     /**
@@ -48,7 +44,10 @@ class CourseController extends Controller
      */
     public function show($id)
     {
-        //
+        return response()->json(
+            CourseResource::make(Course::find($id)),
+            Response::HTTP_OK
+        );
     }
 
     /**
