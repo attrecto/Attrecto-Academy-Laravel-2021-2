@@ -14,11 +14,15 @@ class Course extends Model
     protected $fillable = [
         'title',
         'description',
-        'author',
+        'author_id',
         'url'
     ];
 
     public function getTitleWithAuthorAttribute() {
-        return $this->title . ' - ' . $this->author;
+        return $this->title . ' - ' . $this->author->name;
+    }
+
+    public function author() {
+        return $this->hasOne(User::class, 'id', 'author_id');
     }
 }
