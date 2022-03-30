@@ -13,23 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
-
-    public function login(LoginRequest $request)
-    {
-        $user = User::where('email', '=', $request->email)->firstOrFail();
-
-        if (!Hash::check($request->password, $user->password)) {
-            return response()->json('nem léphet be');
-        }
-
-        $token = $user->createToken('accessToken');
-
-        return response()->json([
-            'accessToken' => $token->plainTextToken,
-            'db' => config('database.default'),
-        ]);
-    }
-
     /**
      * Store a newly created resource in storage.
      *
