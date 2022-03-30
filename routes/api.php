@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -23,4 +24,18 @@ Route::delete('/courses/{course}', [CourseController::class, 'destroy']);
 Route::put('/courses/{course}', [CourseController::class, 'update']);
 
 Route::post('/users/registration', [UserController::class, 'store']);
-Route::post('/auth/login', [UserController::class, 'login']);
+Route::put('/users/{user}', [UserController::class, 'update']);
+
+Route::group([
+    'prefix' => 'auth'
+], function ($router) {
+
+    Route::group(['middleware' => ['auth:api']], function () {
+        Route::get('me', [AuthController::class, 'me']);
+    });
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('logout', [AuthController::class, 'logout']);
+    Route::post('refresh', [AuthController::class, 'refresh']);
+
+
+});

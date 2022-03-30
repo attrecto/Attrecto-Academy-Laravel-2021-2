@@ -17,7 +17,8 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'password' => $this->password
+            'password' => $this->password,
+            'ownCourses' => CourseResource::collection($this->courses),
         ];
     }
 }
