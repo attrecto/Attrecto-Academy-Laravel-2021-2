@@ -26,7 +26,7 @@ class CourseRequest extends FormRequest
         return [
             'title' => 'required|string|min:3|max:255',
             'description' => 'required|string|min:1',
-            'author' => 'required|string|min:1',
+            'author.id' => 'required|int',
             'url' => 'url',
         ];
     }

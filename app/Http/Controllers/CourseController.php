@@ -63,13 +63,15 @@ class CourseController extends Controller
             'title',
             'description',
             'author',
-            'url'
+            'url',
+            'students'
         ]);
 
         $course->title = $data['title'];
         $course->description = $data['description'];
         $course->author = $data['author'];
         $course->url = $data['url'] ?? null;
+        $course->students()->sync($data['students']);
         $course->save();
 
         return response()->json(

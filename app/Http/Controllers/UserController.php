@@ -13,6 +13,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
+
+    public function index() {
+        return response()->json(
+            UserResource::collection(User::all()),
+            Response::HTTP_OK
+        );
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -52,6 +59,10 @@ class UserController extends Controller
     {
         $courses = $request->courses;
         $user->assignedCourses()->sync($courses);
+        return response()->json(
+            UserResource::make($user),
+            Response::HTTP_OK
+        );
     }
 
     /**
